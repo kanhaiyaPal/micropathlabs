@@ -16,15 +16,15 @@ class CreateCenteresTable extends Migration
         Schema::create('center', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code',100);
-            $table->string('name',250);
-            $table->string('email',250);
             $table->text('address');
             $table->string('role',100);
             $table->string('division',100);
             $table->string('psc',100);
             $table->string('lab',100);
+            $table->integer('user_id');
             $table->float('advance',8,2);
             $table->string('billing_cycle',100);
+            $table->string('sales_officer',100);
             $table->timestamps();
         });
     }

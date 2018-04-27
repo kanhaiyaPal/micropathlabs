@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Patient;
-use App\CenterModel;
+use App\Center;
 
 
 class PatientOperationController extends Controller
@@ -21,14 +21,25 @@ class PatientOperationController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        return "Patient Index";
+    }
+
     public function showpatientregisterform()
     {
         $patient = new Patient;
-        $centers = CenterModel::all();
+        $centers = Center::all();
         return view('patients.form',compact('patient','centers'));
     } 
 
     public function createnewpatient(Request $request)
+    {
+        $patient = new Patient;
+        $this->edit_patient($patient,$request);
+    }  
+
+    private function edit_patient(Patient $patient,Request $request)
     {
         //Validate
         $request->validate([
@@ -42,8 +53,7 @@ class PatientOperationController extends Controller
             'vial_ids' => 'required',
             'tests' => 'required'
         ]);
-
-        $patient = new Patient;
+        
         $patient->doctor_name = $request->doctor_name;
         $patient->salutation = $request->salutation;
         $patient->name = $request->name;
@@ -55,16 +65,22 @@ class PatientOperationController extends Controller
         $patient->center_id = $request->center_id;
         $patient->registration_no = date("ymd");
         $patient->save();
-
-    }  
+    }
 
     public function showpatienteditform(Patient $patient)
     {
-        return view('patients.form');
+        $centers = Center::all();
+        return view('patients.form',compact('patient','centers'));
     } 
 
     public function saveexistingpatient(Request $request,Patient $patient)
     {
-
+        $this->edit_patient($patient,$request);
     }
+
+    private function delete_individual(Patient $patient)
+    {
+        $patient->delete();
+    }
+
 }

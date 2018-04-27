@@ -23,9 +23,9 @@
                     <li class="nav-small-cap m-t-10">---Patient Registration </li>
                     <li><a href="{{ url('patient/register') }}" class="waves-effect {{ Request::segment(1) === 'patient/register' ? 'active' : null }}"><i data-icon="R" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Sample Registration</span></a>            
                     </li>
-                    <li class="nav-small-cap m-t-10">--- Yellow Pages Section</li>
-                    <li><a href="{{ url('directorycategory') }}" class="waves-effect {{ Request::segment(1) === 'directorycategory' ? 'active' : null }}"><i data-icon="f" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Categories</span></a>  
-                    <li><a href="{{ url('directorysubcategory') }}" class="waves-effect {{ Request::segment(1) === 'directorysubcategory' ? 'active' : null }}"><i data-icon="f" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Sub - Categories</span></a>          
+                    <li class="nav-small-cap m-t-10">--- Internal Functions</li>
+                    <li><a href="{{ url('centeres') }}" class="waves-effect {{ Request::segment(1) === 'centeres' ? 'active' : null }}"><i data-icon="f" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Centers</span></a>  
+                    <li><a href="{{ url('departments') }}" class="waves-effect {{ Request::segment(1) === 'departments' ? 'active' : null }}"><i data-icon="f" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Departments</span></a>          
                     </li>
                     <li><a href="{{ url('directorylisting') }}" class="waves-effect {{ Request::segment(1) === 'directorylisting' ? 'active' : null }}"><i data-icon="m" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Listings</span></a>          
                     </li>

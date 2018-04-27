@@ -13,7 +13,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
     	$user_types = ['admin','inventory','department','account','center','doctor'];
-    	$modules = ['global_settings','patient','departments','tests','signatures'];
+    	$modules = ['global_settings','patient','departments','tests','signatures','center'];
 
     	
 		foreach ($modules as $mod_value) {

@@ -42,33 +42,38 @@
                 <!-- .row -->
                 <div class="row">
                     <div class="col-md-12">
+                        @if(isset($patient->id))
+                            <form class="floating-labels" action="{{url('patient', [$patient->id])}}" method="POST" enctype="multipart/form-data" novalidate="novalidate" >
+                                <input type="hidden" name="_method" value="PUT">
+                        @else
+                            <form class="floating-labels" action="{{url('patient/register')}}" method="POST" enctype="multipart/form-data" novalidate="novalidate" >
+
+                        @endif
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Add New Patient</h3>
                             <p class="text-muted m-b-30 font-13">Patient Registration - Sample Registration Form</p>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    @if(isset($patient->id))
-                                        <form class="floating-labels" action="{{url('patient', [$patient->id])}}" method="POST" enctype="multipart/form-data" novalidate="novalidate" >
-                                            <input type="hidden" name="_method" value="PUT">
-                                    @else
-                                        <form class="floating-labels" action="{{url('patient/register')}}" method="POST" enctype="multipart/form-data" novalidate="novalidate" >
-
-                                    @endif
                                     
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
+                                    
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
 
                                         <div class="form-group">
-                                            <select name="center_id" id="center_id" class="form-control" required="required">
+                                            <select name="center_id" id="center_id" class="form-control input-sm" required="required">
                                                 @foreach($centers as $center)
+                                                @if($center->id == $patient->center_id)
+                                                <option value="{{$center->id}}" selected="selected" >{{$center->name}}</option>
+                                                @else
                                                 <option value="{{$center->id}}">{{$center->name}}</option>
+                                                @endif                                                
                                                 @endforeach
                                             </select><span class="highlight"></span> <span class="bar"></span><label for="center_id">Center(*)</label>
                                         </div>
@@ -81,13 +86,13 @@
                                             <div class="col-md-2">
                                                 <select name="salutation" id="salutation" class="form-control input-sm" required="required">
                                                     <option></option>
-                                                    <option>MR</option>
-                                                    <option>MISS</option>
-                                                    <option>MRS</option>
-                                                    <option>DR</option>
-                                                    <option>BABY</option>
-                                                    <option>MASTER</option>
-                                                    <option>C./O.</option>
+                                                    <option <?php if($patient->salutation == "MR"){ echo "selected='selected'"; } ?>>MR</option>
+                                                    <option <?php if($patient->salutation == "MISS"){ echo "selected='selected'"; } ?>>MISS</option>
+                                                    <option <?php if($patient->salutation == "MRS"){ echo "selected='selected'"; } ?>>MRS</option>
+                                                    <option <?php if($patient->salutation == "DR"){ echo "selected='selected'"; } ?>>DR</option>
+                                                    <option <?php if($patient->salutation == "BABY"){ echo "selected='selected'"; } ?>>BABY</option>
+                                                    <option <?php if($patient->salutation == "MASTER"){ echo "selected='selected'"; } ?>>MASTER</option>
+                                                    <option <?php if($patient->salutation == "C./O."){ echo "selected='selected'"; } ?>>C./O.</option>
                                                 </select><span class="highlight"></span> <span class="bar"></span><label for="salutation">Salutation(*)</label>
                                             </div>
                                             <div class="col-md-10">
@@ -102,15 +107,15 @@
                                             <div class="col-md-4">
                                                 <div class="icheck-list col-md-12">
                                                     <div class="col-md-4">
-                                                        <label><input type="radio" class="check" id="minimal-radio-1" data-radio="iradio_flat-red" value="male" name="gender">
+                                                        <label><input type="radio" class="check" id="minimal-radio-1" data-radio="iradio_flat-red" <?php if($patient->gender == "male"){ echo "checked='checked'"; } ?> value="male" name="gender">
                                                         Male</label>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <label><input type="radio" class="check" id="minimal-radio-2" data-radio="iradio_flat-red" value="female" name="gender">
+                                                        <label><input type="radio" class="check" id="minimal-radio-2" data-radio="iradio_flat-red" <?php if($patient->gender == "female"){ echo "checked='checked'"; } ?> value="female" name="gender">
                                                         Female</label>
                                                     </div>
                                                     <div class="col-md-3">
-                                                        <label><input type="radio" class="check" id="minimal-radio-3" data-radio="iradio_flat-red" value="other" name="gender">
+                                                        <label><input type="radio" class="check" id="minimal-radio-3" data-radio="iradio_flat-red"  <?php if($patient->gender == "other"){ echo "checked='checked'"; } ?> value="other" name="gender">
                                                         NA</label>
                                                     </div>
                                                 </div>
@@ -120,8 +125,12 @@
                                             </div>
                                         </div>
 
-                                        <hr/>
-                                        
+                                    </div>
+                                </div>
+                            </div><!--.white-box-->
+                            <div class="white-box">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12">
                                         <div class="form-group">
                                             <input type="text" class="form-control" data-role="tagsinput" name="vial_ids" value="{{old('vial_ids',$patient->vial_ids)}}" id="vial_ids" required><span class="highlight"></span> <span class="bar"></span><label for="vial_ids">Vial Id(s)*</label>
                                         </div>
@@ -136,7 +145,7 @@
                                                 <option value="elem_6">elem 6</option>
                                                 <option value="elem_7">elem 7</option>
                                                 <option value="elem_8">elem 8</option>
-                                                <option value="elem_9">elem 9</option>
+                                                <option selected="selected" value="elem_9">elem 9</option>
                                                 <option value="elem_10">elem 10</option>
                                                 <option value="elem_11">elem 11</option>
                                                 <option value="elem_12">elem 12</option>
@@ -158,11 +167,11 @@
 
                                         {{ csrf_field() }}                                                                            
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <!-- /.row -->
                 <!-- .row -->
